@@ -40,6 +40,6 @@ public class User {
 
     @NotBlank
     @Size(max = 100)
-    private String passowrd;
+    private String password;
 
 }
