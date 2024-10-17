@@ -19,15 +19,21 @@ import lombok.Setter;
         @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
 })
-
+@AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public User(@NotBlank @Size(max = 100) String username, @NotBlank @Size(max = 100) @Email String email,
+            @NotBlank @Size(max = 100) String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
     @NotBlank
     @Size(max = 100)
