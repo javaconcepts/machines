@@ -1,6 +1,7 @@
 package com.machine.machines.security.jwt;
 
 import java.security.Key;
+import java.time.Instant;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -31,11 +32,15 @@ public class JwtUtils {
     public String generateJwtToken(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
+        // Set expiration time to 10 days from now
+        long expirationTime = 10; // days
+        Instant now = Instant.now();
+        Instant expiryDate = now.plusSeconds(expirationTime * 24 * 60 * 60); // 10 days in seconds
+        
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setExpiration(Date.from(expiryDate))
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
